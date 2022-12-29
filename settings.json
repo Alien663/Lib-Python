@@ -1,0 +1,10 @@
+{
+    "ConnectionString": {
+        "Default": {
+            "Server":".",
+            "DataBase":"我要飛得更高",
+            "Account":"",
+            "Password":""
+        }
+    }
+}
