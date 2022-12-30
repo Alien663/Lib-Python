@@ -3,7 +3,10 @@
 目前僅開發python對MSSQL的相關套件，使用的基礎套件為pyodbc，需要安裝pyodbc才可使用。
 相關程式細節如下，版本穩定後應改寫為程式內的註解。
 ### Mssql
-1. config: settings.json的路徑，是由於常常使用排成處理，需要用到絕對路徑
+目前僅有簡單的read和exec，更複雜的read data from store procedure這種我還沒解。
+
+以下是指令用法 : 
+1. config: settings.json的路徑，開發當時因為常常使用排程呼叫Python檔案處理資料，所以使用絕對路徑是相對穩定的方式，不過應該可以再進一步改善。
 2. domain: DB連線資訊，預設為'Default'
 3. exec: SQL query，尚未完成可以回傳資料的exec方式
 4. read: SQL query，回傳 : [{"Key Name": "Key Value"}]
@@ -16,7 +19,7 @@ dbo.read("select 1")
 dbo.exec("insert into table(column) values('value')")
 ```
 ## DocParser
-DocParser中，有以下模組
+DocParser中，有以下模組，目前緩慢更新中，現在有一些Idea可以優化，大方向會參考我自己[C#的Library](https://github.com/Alien663/Lib_C-)
 1. Excel
 2. Csv
 
@@ -39,9 +42,11 @@ c.read()
 ## PDFExtrator
 主要使用PDFMiner處理，一個PDF物件，代表一個PDF檔案
 PDFMiner的安裝請參考這裡[here](https://gitlab.wke.csie.ncnu.edu.tw/Alien663/pdfminerinstall)
+(PSFMiner目前網址無法使用，等待更新)
 
 ## I3SFile
-依照I3S的檔案儲存規則，建立相關的管理套件
+基於研究所實驗室的論文[I3S-用於建構領域相關知識入口之智慧型資訊系統](https://hdl.handle.net/11296/47g5e9)所提出的架構，設計python套件的相關檔案處理，是我將爬蟲結果匯入資料庫以及建立檔案的Library。
+
 ### Archive
 1. hex2DIR : 將輸入的16進位編碼轉為資料夾路徑
 >root : 為檔案儲存位置的最上層位置

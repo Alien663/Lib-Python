@@ -1,27 +1,15 @@
 import os
 
 class Archive():
-    '''
-    follow the rule of I3S to build the file system
-    include hex2DIR()、dir2DEC()
-    '''
     def __init__(self):
         pass
-
-    # def __recmkdir(self, folder):
-    #     last_lev = '\\'.join(folder.split('\\')[:-1])
-    #     if(os.path.isdir(last_lev)):
-    #         os.mkdir(folder)
-    #     else:
-    #         self.__recmkdir(last_lev)
-    #         os.mkdir(folder)
 
     def hex2DIR(self, root, hex_str, file_depth=8, mkdir=False):
         '''
         root : the top folder
         hex_str : hex(decimal number)
         file_depth : the deepth of file, default is 8
-        mkdir : if you want to create folder automactically, default if false
+        mkdir : Ture if you want to create folder automactically, default if false
         '''
         if(file_depth%2 == 1):
             raise IOError("file_depth must be even")
