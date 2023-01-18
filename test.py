@@ -16,36 +16,6 @@ def Test_DocParser():
                 "Name": "Smit",
                 "StudentId": 10,
                 "Age": 11
-            },
-            {
-                "Name": "Jack",
-                "StudentId": 4,
-                "Age": 5
-            },
-            {
-                "Name": "Smith",
-                "StudentId": 7,
-                "Age": 8
-            },
-            {
-                "Name": "Smit",
-                "StudentId": 10,
-                "Age": 11
-            },
-            {
-                "Name": "Jack",
-                "StudentId": 4,
-                "Age": 5
-            },
-            {
-                "Name": "Smith",
-                "StudentId": 7,
-                "Age": 8
-            },
-            {
-                "Name": "Smit",
-                "StudentId": 10,
-                "Age": 11
             }
         ]
     }

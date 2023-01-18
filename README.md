@@ -19,24 +19,30 @@ dbo.read("select 1")
 dbo.exec("insert into table(column) values('value')")
 ```
 ## DocParser
-DocParser中，有以下模組，目前緩慢更新中，現在有一些Idea可以優化，大方向會參考我自己[C#的Library](https://github.com/Alien663/Lib_C-)
-1. Excel
-2. Csv
+DocParser目前使用openpyxl套件處理read/export的作業，Library的未來開發方向將參考我自己的[C#的Library](https://github.com/Alien663/Lib_C-)，若要看使用方法，可以參考Test.py中的Test_DocParser()
 
-### Excel & Csv
-目前僅處理二維表資料，不考慮合併儲存格的狀況。
-回傳格式 : [{"Key Name": "Key Value"}]
-1. filename: 檔案的路徑，建議輸入絕對路徑以避免錯誤
-2. header: 設定欄位，資料從header的下一列開始，預設為第一列
-3. read: 讀取檔案，預設檔案編碼為utf-8
-4. sheetIndex: excel的表格編號，而非表名稱，預設為第0張表
+1. 使用檔案的副檔名判斷Excel或是CSV檔案，因此要注意檔案的附檔名是否命名正確。
+2. Excel為了支援多Sheet的read、write，因此資料格式較CSV的深度多一層。
+3. 目前僅處理二維表資料，不考慮合併儲存格的狀況。
+4. MyExcel的參數定義如下 :
+>filename: 檔案的路徑，建議輸入絕對路徑以避免錯誤
 
-```python
-from DocParser import Excel, Csv
-e = Excel(filename='test.xlsx')
-e.read()
-c = Csv(filename='test.xlsx')
-c.read()
+>header: 設定欄位，資料從header的下一列開始，預設為第一列
+
+5. 格式差異
+> Excel
+```json
+{
+    "Sheet Name" : [
+        {"Key 1" : "value 1", "Key 2": "value 2" }
+    ]
+}
+```
+> CSV
+```json
+[
+    {"Key 1" : "value 1", "Key 2": "value 2" }
+]
 ```
 
 ## PDFExtrator
