@@ -1,44 +1,46 @@
+import os
 import csv
-import xlrd
+import openpyxl
 
-class Table:
-    def __init__(self, filename, header=0):
-        self.filename= filename
+class Excel():
+    def __init__(self, filename, header=1):
+        self.filename = filename
         self.header = header
+        self.__excend = self.filename.split(".")[-1]
+        if(self.__excend not in ["xlsx", "xls", "csv"]):
+            raise Exception("Can not know this file with extend file name : ." + self.__excend)
     
-    def read(self):
-        print("read data from %s" % self.filename)
-
-class Excel(Table):
-    def __init__(self, filename, header=0, sheetIndex=0):
-        super().__init__(filename, header)
-        self.sheetIndex = sheetIndex
+    def __str__(self):
+        return "read data from %s" % self.filename
 
     def read(self):
-        result = []
-        keys = []
-        wb = xlrd.open_workbook(self.filename)
-        sheet = wb.sheet_by_index(self.sheetIndex)
-        for i in range(sheet.ncols):
-            keys.append(sheet.cell(self.header, i).value)
-        for i in range(self.header + 1, sheet.nrows):
-            row = dict()
-            for j in range(len(keys)):
-                row[keys[j]] = sheet.cell(i, j).value
-            result.append(row)
-        return(result)
+        match extend:
+            case "xlsx":
+                return self.__read_excel()
+            case "xls":
+                return self.__read_excel()
+            case "csv":
+                return self.__raed_csv()
 
-    def insert(self):
-        pass
-    
-    def newSheet(self):
-        pass
+    def __read_excel(self):
+        result = dict()
+        workbook = openpyxl.load_workbook(self.filename)
+        for sheetname in workbook.sheetnames:
+            sheet = workbook[sheetname]
+            temp_sheet = []
+            headers = ["nothing"]
+            for i in range(1, sheet.max_column + 1):
+                headers.append(sheet.cell(self.header, i).value)
+            
+            for i in range(1, sheet.max_row + 1):
+                temp_row = dict()
+                for j in range(1, sheet.max_column + 1):
+                    temp_row[headers[j]] = sheet.cell(i, j).value
+                temp_sheet.append(temp_row)
+        result[sheetname] = temp_sheet
+        return result
 
-class Csv(Table):
-    def __init__(self, filename, header=0):
-        super().__init__(filename, header)
-    
-    def read(self):
+    def __raed_csv(self):
         i = 0
         Flag = False
         cols, result = [], []
@@ -53,7 +55,3 @@ class Csv(Table):
                 i += 1
         fp.close()
         return(result)
-
-    def insert(self):
-        pass
-
