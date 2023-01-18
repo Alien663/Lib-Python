@@ -2,7 +2,7 @@ import os
 import csv
 import openpyxl
 
-class Excel():
+class MyExcel():
     def __init__(self, filename, header=1):
         self.filename = filename
         self.header = header
@@ -14,13 +14,13 @@ class Excel():
         return "read data from %s" % self.filename
 
     def read(self):
-        match extend:
+        match self.__excend:
             case "xlsx":
                 return self.__read_excel()
             case "xls":
                 return self.__read_excel()
             case "csv":
-                return self.__raed_csv()
+                return self.__read_csv()
 
     def __read_excel(self):
         result = dict()
@@ -40,18 +40,50 @@ class Excel():
         result[sheetname] = temp_sheet
         return result
 
-    def __raed_csv(self):
-        i = 0
-        Flag = False
-        cols, result = [], []
+    def __read_csv(self):
+        result = []
         with open(self.filename, 'r', encoding='utf-8', newline='') as fp:
-            raw_rows = csv.reader(fp)
-            for item in raw_rows:
-                if Flag:
-                    result.append(dict(zip(cols, item)))
-                elif(i == self.header):
-                    Flag = True
-                    cols = item
-                i += 1
-        fp.close()
+            rows = csv.DictReader(fp)
+            for row in rows:
+                result.append(row)
         return(result)
+
+    def export(self, data):
+        match self.__excend:
+            case "xlsx":
+                self.__export_excel(data)
+            case "xls":
+                self.__export_excel(data)
+            case "csv":
+                self.__export_csv(data)
+    
+    def __export_excel(self, data):
+        workbook = openpyxl.Workbook()
+        the_first = True
+        for sheet in data:
+            if(the_first):
+                temp_sheet = workbook["Sheet"]
+                temp_sheet.title = sheet
+                the_first = False
+            else:
+                temp_sheet = workbook.create_sheet(sheet)
+            j=1
+            for colname in data[sheet][self.header]:
+                temp_sheet.cell(self.header, j).value = colname
+                j+=1
+
+            for i in range(self.header + 1, len(data[sheet]) + 1):
+                temp_row = data[sheet][i-1]
+                j=1
+                for colname in temp_row:
+                    temp_sheet.cell(i, j).value = temp_row[colname]
+                    j+=1
+        workbook.save(self.filename)
+
+    def __export_csv(self, data):
+        with open(self.filename, 'w', encoding="utf-8") as fd:
+            writer = csv.DictWriter(fd, list(data[0].keys()))
+            writer.writeheader()
+            for row in data:
+                writer.writerow(row)
+        fd.close()
