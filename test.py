@@ -21,11 +21,11 @@ def Test_DocParser():
     }
     t1 = MyExcel("./test_out.xlsx")
     t1.export(data)
-    t1.read()
+    print(t1.read())
 
     t2 = MyExcel("./test_out.csv")
     t2.export(data["Student"])
-    t2.read()
+    print(t2.read())
 
     
 if __name__ == "__main__":

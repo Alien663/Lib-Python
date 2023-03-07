@@ -71,12 +71,12 @@ class MyExcel():
             for colname in data[sheet][self.header]:
                 temp_sheet.cell(self.header, j).value = colname
                 j+=1
-
-            for i in range(self.header + 1, len(data[sheet]) + 1):
-                temp_row = data[sheet][i-1]
+            row_index = self.header
+            for temp_row in data[sheet]:
                 j=1
+                row_index += 1
                 for colname in temp_row:
-                    temp_sheet.cell(i, j).value = temp_row[colname]
+                    temp_sheet.cell(row_index, j).value = temp_row[colname]
                     j+=1
         workbook.save(self.filename)
 
