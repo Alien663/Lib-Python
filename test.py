@@ -28,3 +28,5 @@ def Test_DocParser():
     t2.read()
 
     
+if __name__ == "__main__":
+    Test_DocParser()

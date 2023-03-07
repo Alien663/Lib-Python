@@ -6,15 +6,15 @@ class MyExcel():
     def __init__(self, filename, header=1):
         self.filename = filename
         self.header = header
-        self.__excend = self.filename.split(".")[-1]
-        if(self.__excend not in ["xlsx", "xls", "csv"]):
-            raise Exception("Can not know this file with extend file name : ." + self.__excend)
+        self.__extend = self.filename.split(".")[-1]
+        if(self.__extend not in ["xlsx", "xls", "csv"]):
+            raise Exception("Can not know this file with extend file name : ." + self.__extend)
     
     def __str__(self):
         return "read data from %s" % self.filename
 
     def read(self):
-        match self.__excend:
+        match self.__extend:
             case "xlsx":
                 return self.__read_excel()
             case "xls":
@@ -49,7 +49,7 @@ class MyExcel():
         return(result)
 
     def export(self, data):
-        match self.__excend:
+        match self.__extend:
             case "xlsx":
                 self.__export_excel(data)
             case "xls":
